@@ -11,7 +11,7 @@ async function getSiteData() {
     prisma.siteContent.findMany(),
     prisma.banner.findMany({ where: { active: true }, orderBy: { order: "asc" } }),
     prisma.section.findMany({ where: { visible: true }, orderBy: { order: "asc" } }),
-    prisma.menuItem.findMany({ where: { visible: true }, orderBy: { order: "asc" } }),
+    prisma.menuItem.findMany({ orderBy: { order: "asc" } }),
   ]);
 
   const content: Record<string, string> = {};
@@ -26,8 +26,8 @@ export default async function Home() {
   const hero = banners[0] ?? {
     id: "default",
     title: content.site_name ?? "Cherry Street Commons",
-    subtitle: content.site_tagline ?? "Community. Connection. Home.",
-    buttonText: "Saiba Mais",
+    subtitle: content.site_tagline ?? "Affordable Housing in Downtown San Carlos",
+    buttonText: "Learn More",
     buttonHref: "#about",
     imageUrl: "",
   };
@@ -47,6 +47,7 @@ export default async function Home() {
         email={content.contact_email ?? ""}
         phone={content.contact_phone ?? ""}
         address={content.contact_address ?? ""}
+        menuItems={menuItems}
       />
     </>
   );

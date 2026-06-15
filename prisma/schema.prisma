@@ -51,3 +51,31 @@ model Section {
   order    Int     @default(0)
   visible  Boolean @default(true)
 }
+
+model FloorPlan {
+  id          String  @id @default(cuid())
+  name        String
+  bedrooms    Int     @default(1)
+  bathrooms   Float   @default(1)
+  sqft        Int     @default(0)
+  units       Int     @default(1)
+  description String  @default("")
+  imageUrl    String  @default("")
+  order       Int     @default(0)
+  available   Boolean @default(true)
+}
+
+model QualificationLead {
+  id             String   @id @default(cuid())
+  firstName      String
+  lastName       String
+  email          String
+  phone          String   @default("")
+  householdSize  Int      @default(1)
+  annualIncome   Int      @default(0)
+  hasVoucher     Boolean  @default(false)
+  unitType       String   @default("")
+  message        String   @default("")
+  createdAt      DateTime @default(now())
+  contacted      Boolean  @default(false)
+}

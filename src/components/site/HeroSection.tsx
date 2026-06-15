@@ -20,73 +20,77 @@ export default function HeroSection({ banner }: { banner: Banner }) {
   useEffect(() => {
     const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
-    tl.fromTo(overlayRef.current, { opacity: 1 }, { opacity: 0.55, duration: 1.5 })
-      .fromTo(
-        titleRef.current,
-        { y: 60, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1 },
-        "-=0.8"
-      )
-      .fromTo(
-        subtitleRef.current,
-        { y: 40, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.8 },
-        "-=0.6"
-      )
-      .fromTo(
-        ctaRef.current,
-        { y: 20, opacity: 0, scale: 0.95 },
-        { y: 0, opacity: 1, scale: 1, duration: 0.6 },
-        "-=0.4"
-      );
+    tl.fromTo(overlayRef.current, { opacity: 1 }, { opacity: 0.45, duration: 1.4 })
+      .fromTo(titleRef.current, { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9 }, "-=0.7")
+      .fromTo(subtitleRef.current, { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7 }, "-=0.5")
+      .fromTo(ctaRef.current, { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5 }, "-=0.3");
   }, []);
 
-  const bgStyle = banner.imageUrl
-    ? { backgroundImage: `url(${banner.imageUrl})` }
-    : { background: "linear-gradient(135deg, #1e3a5f 0%, #2d6a4f 100%)" };
+  const hasBg = banner.imageUrl && banner.imageUrl !== "/uploads/hero-bg.jpg";
 
   return (
-    <section
-      className="relative min-h-screen flex items-center justify-center bg-cover bg-center"
-      style={bgStyle}
-    >
+    <section className="w-full flex justify-center bg-slate-100">
+      {/* Desktop: 1668×661 — Mobile: 800×1000 */}
       <div
-        ref={overlayRef}
-        className="absolute inset-0 bg-black"
-        style={{ opacity: 0.55 }}
-      />
+        className="relative w-full overflow-hidden bg-slate-800"
+        style={{
+          /* Desktop ratio: 1668/661 ≈ 2.523 */
+          aspectRatio: "1668 / 661",
+          maxWidth: "1668px",
+        }}
+      >
+        {/* Mobile override via inline style + tailwind breakpoint trick */}
+        <style>{`
+          @media (max-width: 767px) {
+            .hero-wrapper {
+              aspect-ratio: 800 / 1000 !important;
+            }
+          }
+        `}</style>
+        <div className="hero-wrapper absolute inset-0"
+          style={{
+            backgroundImage: hasBg ? `url(${banner.imageUrl})` : "linear-gradient(135deg, #1e3a5f 0%, #8B1A1A 100%)",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
 
-      <div className="relative z-10 text-center text-white px-6 max-w-4xl mx-auto">
-        <h1
-          ref={titleRef}
-          className="text-5xl md:text-7xl font-extrabold leading-tight mb-6 drop-shadow-lg"
-          style={{ textShadow: "0 4px 24px rgba(0,0,0,0.4)" }}
-        >
-          {banner.title}
-        </h1>
-        {banner.subtitle && (
-          <p
-            ref={subtitleRef}
-            className="text-xl md:text-2xl text-white/90 mb-10 font-light"
-          >
-            {banner.subtitle}
-          </p>
-        )}
-        {banner.buttonText && banner.buttonHref && (
-          <a
-            ref={ctaRef}
-            href={banner.buttonHref}
-            className="inline-block px-10 py-4 bg-white text-slate-900 font-bold text-lg rounded-full shadow-2xl hover:bg-slate-100 transition-all duration-300 hover:scale-105"
-          >
-            {banner.buttonText}
-          </a>
-        )}
-      </div>
+        {/* Overlay */}
+        <div
+          ref={overlayRef}
+          className="absolute inset-0 bg-black"
+          style={{ opacity: 0.45 }}
+        />
 
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce">
-        <svg className="w-6 h-6 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-        </svg>
+        {/* Content */}
+        <div className="relative z-10 h-full flex flex-col items-center justify-center text-center text-white px-6">
+          <h1
+            ref={titleRef}
+            className="text-4xl md:text-6xl font-extrabold leading-tight mb-4 drop-shadow-lg"
+            style={{ textShadow: "0 3px 20px rgba(0,0,0,0.5)" }}
+          >
+            {banner.title}
+          </h1>
+
+          {banner.subtitle && (
+            <p
+              ref={subtitleRef}
+              className="text-lg md:text-2xl text-white/85 mb-8 max-w-2xl font-light"
+            >
+              {banner.subtitle}
+            </p>
+          )}
+
+          {banner.buttonText && banner.buttonHref && (
+            <a
+              ref={ctaRef}
+              href={banner.buttonHref}
+              className="inline-block px-9 py-3.5 bg-white text-slate-900 font-bold rounded-full shadow-xl hover:bg-slate-100 transition-all duration-300 hover:scale-105 text-base"
+            >
+              {banner.buttonText}
+            </a>
+          )}
+        </div>
       </div>
     </section>
   );
