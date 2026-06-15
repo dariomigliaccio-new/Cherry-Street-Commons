@@ -12,18 +12,14 @@ type NavbarProps = {
 };
 
 export default function Navbar({ siteName, logoUrl, menuItems }: NavbarProps) {
-  const navRef     = useRef<HTMLElement>(null);
-  const [scrolled, setScrolled] = useState(false);
-  const [mobile,   setMobile]   = useState(false);
+  const navRef  = useRef<HTMLElement>(null);
+  const [mobile, setMobile] = useState(false);
 
   useEffect(() => {
     gsap.fromTo(navRef.current,
-      { y: -80, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.9, ease: "power3.out", delay: 0.2 }
+      { y: -60, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" }
     );
-    const onScroll = () => setScrolled(window.scrollY > 60);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   const visible = menuItems.filter(m => m.visible).sort((a, b) => a.order - b.order);
@@ -31,14 +27,10 @@ export default function Navbar({ siteName, logoUrl, menuItems }: NavbarProps) {
   return (
     <nav
       ref={navRef}
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
+      className="sticky top-0 left-0 right-0 z-50 bg-white"
       style={{
-        background: scrolled
-          ? "rgba(255,255,255,0.96)"
-          : "transparent",
-        backdropFilter: scrolled ? "blur(16px)" : "none",
-        borderBottom: scrolled ? "1px solid rgba(0,0,0,0.08)" : "none",
-        boxShadow: scrolled ? "0 4px 30px rgba(0,0,0,0.08)" : "none",
+        borderBottom: "1px solid rgba(0,0,0,0.08)",
+        boxShadow: "0 2px 16px rgba(0,0,0,0.06)",
       }}
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -49,18 +41,14 @@ export default function Navbar({ siteName, logoUrl, menuItems }: NavbarProps) {
           ) : (
             <div className="flex flex-col leading-none">
               <span
-                className="font-display font-bold tracking-tight transition-colors"
-                style={{
-                  fontSize: "1.2rem",
-                  color: scrolled ? "#8B1A1A" : "white",
-                  letterSpacing: "-0.02em",
-                }}
+                className="font-display font-bold tracking-tight"
+                style={{ fontSize: "1.2rem", color: "#8B1A1A", letterSpacing: "-0.02em" }}
               >
                 Cherry Street
               </span>
               <span
-                className="text-xs tracking-widest uppercase transition-colors"
-                style={{ color: scrolled ? "#6B6B6B" : "rgba(255,255,255,0.75)" }}
+                className="text-xs tracking-widest uppercase"
+                style={{ color: "#6B6B6B" }}
               >
                 Commons
               </span>
@@ -74,8 +62,8 @@ export default function Navbar({ siteName, logoUrl, menuItems }: NavbarProps) {
             <Link
               key={item.id}
               href={item.href}
-              className="text-sm font-medium transition-all duration-200 relative group"
-              style={{ color: scrolled ? "#2C2C2C" : "rgba(255,255,255,0.9)" }}
+              className="text-sm font-medium transition-colors duration-200 relative group"
+              style={{ color: "#2C2C2C" }}
             >
               {item.label}
               <span
@@ -86,10 +74,10 @@ export default function Navbar({ siteName, logoUrl, menuItems }: NavbarProps) {
           ))}
           <a
             href="#contact"
-            className="btn-glow text-sm font-semibold px-5 py-2.5 rounded-full text-white transition-all"
+            className="btn-glow text-sm font-semibold px-5 py-2.5 rounded-full text-white"
             style={{
               background: "linear-gradient(135deg, #8B1A1A, #B02020)",
-              boxShadow: "0 4px 20px rgba(139,26,26,0.35)",
+              boxShadow: "0 4px 20px rgba(139,26,26,0.3)",
             }}
           >
             Apply Now
@@ -101,9 +89,9 @@ export default function Navbar({ siteName, logoUrl, menuItems }: NavbarProps) {
           className="md:hidden w-8 h-8 flex flex-col justify-center gap-1.5"
           onClick={() => setMobile(!mobile)}
         >
-          <span className="block h-0.5 w-6 transition-all" style={{ background: scrolled ? "#2C2C2C" : "white" }} />
-          <span className="block h-0.5 w-4 transition-all" style={{ background: scrolled ? "#2C2C2C" : "white" }} />
-          <span className="block h-0.5 w-6 transition-all" style={{ background: scrolled ? "#2C2C2C" : "white" }} />
+          <span className="block h-0.5 w-6" style={{ background: "#2C2C2C" }} />
+          <span className="block h-0.5 w-4" style={{ background: "#2C2C2C" }} />
+          <span className="block h-0.5 w-6" style={{ background: "#2C2C2C" }} />
         </button>
       </div>
 

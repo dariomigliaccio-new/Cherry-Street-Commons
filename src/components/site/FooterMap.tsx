@@ -3,13 +3,8 @@ import { useEffect, useRef } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
-const PROPERTY = {
-  lng: -122.2598,
-  lat: 37.5063,
-  name: "Cherry Street Commons",
-  address: "1244 Cherry Street",
-  city: "San Carlos, CA",
-};
+const LNG = -122.2598;
+const LAT = 37.5063;
 
 export default function FooterMap() {
   const container = useRef<HTMLDivElement>(null);
@@ -21,10 +16,10 @@ export default function FooterMap() {
     map.current = new maplibregl.Map({
       container: container.current,
       style: "https://tiles.openfreemap.org/styles/positron",
-      center: [PROPERTY.lng, PROPERTY.lat],
-      zoom: 14,
-      pitch: 50,
-      bearing: -20,
+      center: [LNG, LAT],
+      zoom: 13.5,
+      pitch: 30,
+      bearing: -10,
       attributionControl: false,
     });
 
@@ -32,7 +27,6 @@ export default function FooterMap() {
       new maplibregl.AttributionControl({ compact: true }),
       "bottom-right"
     );
-
     map.current.addControl(
       new maplibregl.NavigationControl({ showCompass: false }),
       "top-right"
@@ -41,89 +35,69 @@ export default function FooterMap() {
     map.current.on("load", () => {
       if (!map.current) return;
 
-      // 3D buildings
+      // Subtle 3D buildings
       map.current.addLayer({
         id: "3d-buildings",
         source: "openmaptiles",
         "source-layer": "building",
         type: "fill-extrusion",
-        minzoom: 13,
+        minzoom: 14,
         paint: {
-          "fill-extrusion-color": [
-            "interpolate", ["linear"], ["get", "render_height"],
-            0, "#e8ddd0", 30, "#d4c8b8", 80, "#b8a898",
-          ],
+          "fill-extrusion-color": "#e8e4de",
           "fill-extrusion-height": ["get", "render_height"],
           "fill-extrusion-base": ["get", "render_min_height"],
-          "fill-extrusion-opacity": 0.8,
+          "fill-extrusion-opacity": 0.6,
         },
       });
 
-      // Custom marker
+      // Marker element
       const el = document.createElement("div");
-      el.style.cssText = `
-        display: flex; flex-direction: column; align-items: center; cursor: pointer;
-      `;
+      el.style.cssText = "display:flex;flex-direction:column;align-items:center;cursor:pointer;";
       el.innerHTML = `
         <div style="
-          background: linear-gradient(135deg, #8B1A1A, #B02020);
+          background: #8B1A1A;
           color: white;
-          padding: 10px 18px;
-          border-radius: 30px;
-          font-family: 'Inter', sans-serif;
+          padding: 9px 16px;
+          border-radius: 24px;
           font-size: 13px;
           font-weight: 600;
-          box-shadow: 0 6px 24px rgba(139,26,26,0.5);
+          font-family: Inter, sans-serif;
+          box-shadow: 0 4px 20px rgba(139,26,26,0.45);
           white-space: nowrap;
           display: flex;
           align-items: center;
-          gap: 8px;
-          letter-spacing: 0.01em;
+          gap: 7px;
         ">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="white">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="white">
             <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
           </svg>
           Cherry Street Commons
         </div>
-        <div style="
-          width: 2px; height: 16px;
-          background: linear-gradient(to bottom, #8B1A1A, transparent);
-          margin-top: 0;
-        "></div>
-        <div style="
-          width: 8px; height: 8px;
-          background: #8B1A1A;
-          border-radius: 50%;
-          box-shadow: 0 0 0 3px rgba(139,26,26,0.25);
-        "></div>
+        <div style="width:2px;height:14px;background:linear-gradient(to bottom,#8B1A1A,transparent);"></div>
+        <div style="width:7px;height:7px;background:#8B1A1A;border-radius:50%;box-shadow:0 0 0 3px rgba(139,26,26,0.2);"></div>
       `;
 
       new maplibregl.Marker({ element: el, anchor: "bottom" })
-        .setLngLat([PROPERTY.lng, PROPERTY.lat])
+        .setLngLat([LNG, LAT])
         .setPopup(
-          new maplibregl.Popup({ offset: 20, closeButton: false })
+          new maplibregl.Popup({ offset: 18, closeButton: false })
             .setHTML(`
-              <div style="font-family:Inter,sans-serif; padding:4px 2px; min-width:160px;">
-                <p style="font-weight:700; font-size:14px; color:#1a1a1a; margin-bottom:4px;">
-                  ${PROPERTY.name}
-                </p>
-                <p style="font-size:12px; color:#555; margin:0;">${PROPERTY.address}</p>
-                <p style="font-size:12px; color:#555; margin:0;">${PROPERTY.city}</p>
-                <p style="font-size:11px; color:#8B1A1A; margin-top:6px; font-weight:600;">
-                  Opening 2026
-                </p>
+              <div style="font-family:Inter,sans-serif;padding:4px 2px;min-width:160px;">
+                <p style="font-weight:700;font-size:13px;color:#1a1a1a;margin-bottom:3px;">Cherry Street Commons</p>
+                <p style="font-size:12px;color:#666;margin:0;">1244 Cherry Street</p>
+                <p style="font-size:12px;color:#666;margin:0;">San Carlos, CA 94070</p>
+                <p style="font-size:11px;color:#8B1A1A;margin-top:5px;font-weight:600;">Opening 2026</p>
               </div>
             `)
         )
         .addTo(map.current!);
 
-      // Smooth fly-in
       map.current.flyTo({
-        center: [PROPERTY.lng, PROPERTY.lat],
-        zoom: 15.5,
-        pitch: 58,
-        bearing: -25,
-        duration: 2400,
+        center: [LNG, LAT],
+        zoom: 15,
+        pitch: 35,
+        bearing: -12,
+        duration: 2000,
         essential: true,
       });
     });

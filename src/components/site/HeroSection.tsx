@@ -44,7 +44,7 @@ export default function HeroSection({ banner }: { banner: Banner }) {
     banner.imageUrl !== "";
 
   return (
-    <section className="w-full flex justify-center bg-[#FAF7F2] pt-20">
+    <section className="w-full flex justify-center bg-[#FAF7F2]">
       {/* Wrapper com proporções corretas */}
       <div
         ref={wrapRef}
