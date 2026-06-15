@@ -9,7 +9,7 @@ export default function MapSection() {
               className="text-xs font-bold tracking-widest uppercase mb-3"
               style={{ color: "#C9973A" }}
             >
-              Nossa Localização
+              Location
             </p>
             <h2
               className="font-display font-bold leading-tight"

@@ -34,7 +34,17 @@ export default function BannersPage() {
     setBanners(await res.json());
   }
 
-  useEffect(() => { load(); }, []);
+  useEffect(() => {
+    let cancelled = false;
+
+    fetch("/api/admin/banners")
+      .then((res) => res.json())
+      .then((data) => {
+        if (!cancelled) setBanners(data);
+      });
+
+    return () => { cancelled = true; };
+  }, []);
 
   function openNew() {
     setEditing(null);

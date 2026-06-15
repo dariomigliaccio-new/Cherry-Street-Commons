@@ -21,7 +21,7 @@ export default function Footer({ siteName, footerText, email, phone, address, me
             className="font-display font-bold text-2xl mb-3"
             style={{ color: "white", letterSpacing: "-0.02em" }}
           >
-            Cherry Street Commons
+            {siteName}
           </h3>
           <div className="gold-rule mb-5" />
           <p className="text-sm leading-relaxed mb-6" style={{ color: "rgba(255,255,255,0.55)" }}>

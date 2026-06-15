@@ -26,6 +26,12 @@ const PARTNERS = [
   { role: "Financial Partners", names: ["City of San Carlos"] },
 ];
 
+const FLOOR_PLANS = [
+  { name: "1 Bedroom", units: "Select homes", detail: "Efficient layouts for individuals and couples" },
+  { name: "2 Bedroom", units: "Family homes", detail: "Flexible space for small households" },
+  { name: "3 Bedroom", units: "Larger homes", detail: "Room for families who need more space" },
+];
+
 export default function SectionsBlock({ sections }: { sections: Section[] }) {
   useEffect(() => {
     AOS.init({ duration: 800, once: true, easing: "ease-out-quart", offset: 60 });
@@ -122,6 +128,49 @@ export default function SectionsBlock({ sections }: { sections: Section[] }) {
                 <p className="text-xs font-light" style={{ color: "#999" }}>{item.sub}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="floorplans" className="py-24 md:py-32" style={{ background: "#0f1f3d" }}>
+        <div className="max-w-screen-xl mx-auto px-6 md:px-10">
+          <div className="grid grid-cols-1 lg:grid-cols-[0.85fr_1.15fr] gap-12 items-start">
+            <div data-aos="fade-up">
+              <p className="text-xs font-semibold tracking-[0.25em] uppercase mb-4" style={{ color: "#C9973A" }}>
+                Floor Plans
+              </p>
+              <h2
+                className="font-display mb-5"
+                style={{ fontSize: "clamp(1.9rem, 3.5vw, 2.8rem)", color: "white" }}
+              >
+                Homes planned for different household sizes
+              </h2>
+              <div className="gold-rule mb-6" />
+              <p className="text-base leading-relaxed max-w-xl" style={{ color: "rgba(255,255,255,0.68)" }}>
+                Cherry Street Commons will include one, two, and three-bedroom affordable apartments arranged around shared community spaces.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {FLOOR_PLANS.map((plan, i) => (
+                <div
+                  key={plan.name}
+                  data-aos="fade-up"
+                  data-aos-delay={i * 80}
+                  className="p-6 min-h-52 flex flex-col justify-between"
+                  style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: "8px" }}
+                >
+                  <div>
+                    <p className="text-sm font-semibold mb-3" style={{ color: "#C9973A" }}>{plan.units}</p>
+                    <h3 className="font-display text-2xl mb-3" style={{ color: "white" }}>{plan.name}</h3>
+                    <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.62)" }}>{plan.detail}</p>
+                  </div>
+                  <p className="text-xs uppercase tracking-widest mt-8" style={{ color: "rgba(255,255,255,0.36)" }}>
+                    Details coming soon
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
