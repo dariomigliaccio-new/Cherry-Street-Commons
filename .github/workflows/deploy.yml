@@ -42,8 +42,8 @@ jobs:
             git stash || true
             git pull origin main
 
-            # Install dependencies
-            npm ci --omit=dev
+            # Install dependencies needed for build
+            npm ci
 
             # Build
             npm run build
