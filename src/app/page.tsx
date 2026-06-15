@@ -4,10 +4,11 @@ import HeroSection from "@/components/site/HeroSection";
 import SectionsBlock from "@/components/site/SectionsBlock";
 import MapSection from "@/components/site/MapSection";
 import Footer from "@/components/site/Footer";
-
-export const revalidate = 60;
+import { connection } from "next/server";
 
 async function getSiteData() {
+  await connection();
+
   const [contentItems, banners, sections, menuItems] = await Promise.all([
     prisma.siteContent.findMany(),
     prisma.banner.findMany({ where: { active: true }, orderBy: { order: "asc" } }),

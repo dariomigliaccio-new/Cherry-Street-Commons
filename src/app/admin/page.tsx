@@ -1,7 +1,10 @@
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
+import { connection } from "next/server";
 
 export default async function AdminDashboard() {
+  await connection();
+
   const [banners, sections, contentItems] = await Promise.all([
     prisma.banner.count(),
     prisma.section.count(),
