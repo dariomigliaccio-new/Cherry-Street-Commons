@@ -2,7 +2,7 @@ export default function MapSection() {
   return (
     <section id="location" style={{ background: "white" }}>
       {/* Header */}
-      <div className="max-w-7xl mx-auto px-6 py-14">
+      <div className="max-w-screen-xl mx-auto px-6 md:px-10 py-20 md:py-28">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
             <p
