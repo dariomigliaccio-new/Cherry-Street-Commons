@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  role      String   @default("admin")
+  createdAt DateTime @default(now())
+}
+
+model SiteContent {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  type      String   @default("text")
+  updatedAt DateTime @updatedAt
+}
+
+model MenuItem {
+  id      String  @id @default(cuid())
+  label   String
+  href    String
+  order   Int     @default(0)
+  visible Boolean @default(true)
+}
+
+model Banner {
+  id         String  @id @default(cuid())
+  title      String
+  subtitle   String  @default("")
+  buttonText String  @default("")
+  buttonHref String  @default("")
+  imageUrl   String  @default("")
+  order      Int     @default(0)
+  active     Boolean @default(true)
+}
+
+model Section {
+  id       String  @id @default(cuid())
+  slug     String  @unique
+  title    String
+  content  String
+  imageUrl String  @default("")
+  order    Int     @default(0)
+  visible  Boolean @default(true)
+}
