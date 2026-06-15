@@ -3,7 +3,6 @@ import Navbar from "@/components/site/Navbar";
 import HeroSection from "@/components/site/HeroSection";
 import SectionsBlock from "@/components/site/SectionsBlock";
 import MapSection from "@/components/site/MapSection";
-import Footer from "@/components/site/Footer";
 
 export const revalidate = 60;
 
@@ -43,14 +42,6 @@ export default async function Home() {
       <HeroSection banner={hero} />
       <SectionsBlock sections={sections} />
       <MapSection />
-      <Footer
-        siteName={content.site_name ?? "Cherry Street Commons"}
-        footerText={content.footer_text ?? "© 2025 Cherry Street Commons"}
-        email={content.contact_email ?? ""}
-        phone={content.contact_phone ?? ""}
-        address={content.contact_address ?? ""}
-        menuItems={menuItems}
-      />
     </>
   );
 }

@@ -1,9 +1,7 @@
-import FooterMapWrapper from "./FooterMapWrapper";
-
 export default function MapSection() {
   return (
     <section id="location" style={{ background: "white" }}>
-      {/* Header strip */}
+      {/* Header */}
       <div className="max-w-7xl mx-auto px-6 py-14">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
@@ -11,7 +9,7 @@ export default function MapSection() {
               className="text-xs font-bold tracking-widest uppercase mb-3"
               style={{ color: "#C9973A" }}
             >
-              Our Location
+              Nossa Localização
             </p>
             <h2
               className="font-display font-bold leading-tight"
@@ -27,14 +25,14 @@ export default function MapSection() {
               San Carlos, California 94070
             </p>
           </div>
-          <div className="flex flex-col gap-2 text-sm md:text-right" style={{ color: "#4A4A4A" }}>
+          <div className="flex flex-col gap-1 text-sm md:text-right" style={{ color: "#4A4A4A" }}>
             <p>Downtown San Carlos</p>
             <p>Near Caltrain &amp; Highway 101</p>
             <a
-              href="https://maps.google.com/?q=1244+Cherry+Street+San+Carlos+CA"
+              href="https://www.google.com/maps/dir/?api=1&destination=1244+Cherry+Street,+San+Carlos,+CA+94070"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 font-semibold transition-colors hover:opacity-70"
+              className="inline-flex items-center gap-1.5 font-semibold mt-2 hover:opacity-70 transition-opacity"
               style={{ color: "#8B1A1A" }}
             >
               Get Directions
@@ -46,9 +44,29 @@ export default function MapSection() {
         </div>
       </div>
 
-      {/* Map */}
-      <div className="w-full" style={{ height: "500px" }}>
-        <FooterMapWrapper />
+      {/* Simple flat map embed */}
+      <div className="w-full" style={{ height: "480px" }}>
+        <iframe
+          title="Cherry Street Commons"
+          src="https://www.openstreetmap.org/export/embed.html?bbox=-122.2668%2C37.5003%2C-122.2528%2C37.5123&layer=mapnik&marker=37.5063%2C-122.2598"
+          width="100%"
+          height="100%"
+          style={{ border: 0, display: "block" }}
+          loading="lazy"
+        />
+      </div>
+
+      {/* Link to full map */}
+      <div className="text-center py-3" style={{ background: "#f5f5f5" }}>
+        <a
+          href="https://www.openstreetmap.org/?mlat=37.5063&mlon=-122.2598#map=15/37.5063/-122.2598"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-xs hover:underline"
+          style={{ color: "#888" }}
+        >
+          View larger map
+        </a>
       </div>
     </section>
   );
