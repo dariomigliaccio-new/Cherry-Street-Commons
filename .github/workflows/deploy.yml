@@ -38,7 +38,8 @@ jobs:
             set -e
             cd /var/www/cherry-street-commons
 
-            # Pull latest code
+            # Pull latest code (stash any local changes that would block merge)
+            git stash || true
             git pull origin main
 
             # Install dependencies
