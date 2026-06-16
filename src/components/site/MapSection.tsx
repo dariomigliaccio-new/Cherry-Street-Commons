@@ -1,39 +1,37 @@
 export default function MapSection() {
   return (
     <section id="location" style={{ background: "white" }}>
-      {/* Header */}
-      <div className="max-w-screen-xl mx-auto px-6 md:px-10 py-20 md:py-28">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+      <div className="mx-auto max-w-[1120px] px-5 py-14 md:px-10 md:py-18">
+        <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <div>
             <p
-              className="text-xs font-bold tracking-widest uppercase mb-3"
-              style={{ color: "#C9973A" }}
+              className="mb-3 text-xs font-bold uppercase tracking-[0.18em]"
+              style={{ color: "#7f1717" }}
             >
               Location
             </p>
             <h2
-              className="font-display font-bold leading-tight"
+              className="font-extrabold leading-tight"
               style={{
-                fontSize: "clamp(2rem, 3.5vw, 2.8rem)",
-                color: "#1E3A5F",
-                letterSpacing: "-0.02em",
+                fontSize: "clamp(2rem, 3.2vw, 2.8rem)",
+                color: "#1a1a1a",
               }}
             >
               1244 Cherry Street
             </h2>
-            <p className="mt-1 text-base" style={{ color: "#6B6B6B" }}>
+            <p className="mt-2 text-base" style={{ color: "#625e57" }}>
               San Carlos, California 94070
             </p>
           </div>
-          <div className="flex flex-col gap-1 text-sm md:text-right" style={{ color: "#4A4A4A" }}>
+          <div className="flex flex-col gap-1 text-sm md:text-right" style={{ color: "#4a4742" }}>
             <p>Downtown San Carlos</p>
             <p>Near Caltrain &amp; Highway 101</p>
             <a
               href="https://www.google.com/maps/dir/?api=1&destination=1244+Cherry+Street,+San+Carlos,+CA+94070"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 font-semibold mt-2 hover:opacity-70 transition-opacity"
-              style={{ color: "#8B1A1A" }}
+              className="mt-2 inline-flex items-center gap-1.5 font-bold transition-opacity hover:opacity-70"
+              style={{ color: "#7f1717" }}
             >
               Get Directions
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -44,8 +42,7 @@ export default function MapSection() {
         </div>
       </div>
 
-      {/* Simple flat map embed */}
-      <div className="w-full" style={{ height: "480px" }}>
+      <div className="w-full" style={{ height: "460px" }}>
         <iframe
           title="Cherry Street Commons"
           src="https://www.openstreetmap.org/export/embed.html?bbox=-122.2668%2C37.5003%2C-122.2528%2C37.5123&layer=mapnik&marker=37.5063%2C-122.2598"
@@ -56,8 +53,7 @@ export default function MapSection() {
         />
       </div>
 
-      {/* Link to full map */}
-      <div className="text-center py-3" style={{ background: "#f5f5f5" }}>
+      <div className="py-3 text-center" style={{ background: "#f7f4ef" }}>
         <a
           href="https://www.openstreetmap.org/?mlat=37.5063&mlon=-122.2598#map=15/37.5063/-122.2598"
           target="_blank"

@@ -1,65 +1,51 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
-import { gsap } from "gsap";
+import { useState } from "react";
 import Link from "next/link";
+import { normalizeHref } from "@/lib/site-data";
 
 type MenuItem = { id: string; label: string; href: string; order: number; visible: boolean };
 type NavbarProps = { siteName: string; logoUrl: string; menuItems: MenuItem[] };
 
 export default function Navbar({ siteName, logoUrl, menuItems }: NavbarProps) {
   const [open, setOpen] = useState(false);
-  const menuRef = useRef<HTMLElement>(null);
-  const linksRef = useRef<HTMLUListElement>(null);
 
-  const visible = menuItems
-    .filter((m) => m.visible && m.href !== "#contact")
+  const visible = (menuItems.length ? menuItems : [
+    { id: "home", label: "Home", href: "/", order: 0, visible: true },
+    { id: "about", label: "About", href: "/about", order: 1, visible: true },
+    { id: "homes", label: "Homes", href: "/homes", order: 2, visible: true },
+    { id: "location", label: "Location", href: "/location", order: 3, visible: true },
+    { id: "apply", label: "Apply", href: "/apply", order: 4, visible: true },
+  ])
+    .filter((m) => m.visible)
     .sort((a, b) => a.order - b.order);
-
-  useEffect(() => {
-    if (!open) return;
-    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-    tl.fromTo(menuRef.current, { x: -330 }, { x: 0, duration: 0.35 });
-    if (linksRef.current) {
-      tl.fromTo(linksRef.current.children,
-        { x: -18, opacity: 0 },
-        { x: 0, opacity: 1, stagger: 0.045, duration: 0.28 },
-        "-=0.12"
-      );
-    }
-  }, [open]);
-
-  const handleClose = () => {
-    if (!menuRef.current) { setOpen(false); return; }
-    gsap.to(menuRef.current, { x: -330, duration: 0.25, ease: "power2.in", onComplete: () => setOpen(false) });
-  };
 
   return (
     <>
       <header
-        className="fixed top-0 left-0 right-0 z-50 bg-white"
-        style={{ height: "80px", borderBottom: "1px solid rgba(0,0,0,0.08)" }}
+        className="fixed left-0 right-0 top-0 z-50 bg-white"
+        style={{ height: "80px", borderBottom: "1px solid #e8e4dc" }}
       >
         <div className="mx-auto flex h-full w-full max-w-[1669px] items-center justify-between px-5 md:px-10">
-          <div className="flex items-center gap-5">
+          <div className="flex min-w-0 items-center gap-4 md:gap-5">
             <button
               onClick={() => setOpen(true)}
               aria-label="Open menu"
-              className="flex flex-col gap-[5px] p-2"
+              className="flex h-11 w-11 shrink-0 flex-col items-center justify-center gap-[5px] transition-opacity hover:opacity-60"
             >
-              <span className="block h-[2px] w-[22px]" style={{ background: "#1a1a1a" }} />
-              <span className="block h-[2px] w-[22px]" style={{ background: "#1a1a1a" }} />
-              <span className="block h-[2px] w-[22px]" style={{ background: "#1a1a1a" }} />
+              <span className="block h-[2px] w-[24px] bg-[#1a1a1a]" />
+              <span className="block h-[2px] w-[24px] bg-[#1a1a1a]" />
+              <span className="block h-[2px] w-[24px] bg-[#1a1a1a]" />
             </button>
 
-            <Link href="/" className="flex items-center gap-3">
+            <Link href="/" className="flex min-w-0 items-center gap-3" onClick={() => setOpen(false)}>
               {logoUrl && !logoUrl.includes("logo.png") ? (
-                <img src={logoUrl} alt={siteName} className="h-[55px] w-auto object-contain" />
+                <img src={logoUrl} alt={siteName} className="h-[52px] w-auto max-w-[190px] object-contain md:max-w-[260px]" />
               ) : (
-                <div className="flex flex-col leading-none">
-                  <span className="font-display text-[1.25rem] font-extrabold" style={{ color: "#8B1A1A" }}>
+                <div className="flex min-w-0 flex-col leading-none">
+                  <span className="text-[1.14rem] font-extrabold md:text-[1.25rem]" style={{ color: "#7f1717" }}>
                     Cherry Street
                   </span>
-                  <span className="text-[10px] font-semibold uppercase tracking-[0.24em]" style={{ color: "#666" }}>
+                  <span className="mt-1 text-[10px] font-semibold uppercase tracking-[0.2em]" style={{ color: "#6f6a60" }}>
                     Commons
                   </span>
                 </div>
@@ -71,7 +57,7 @@ export default function Navbar({ siteName, logoUrl, menuItems }: NavbarProps) {
             {visible.slice(0, 6).map((item) => (
               <Link
                 key={item.id}
-                href={item.href}
+                href={normalizeHref(item.href)}
                 className="text-sm font-medium transition-opacity hover:opacity-60"
                 style={{ color: "#1a1a1a" }}
               >
@@ -86,28 +72,30 @@ export default function Navbar({ siteName, logoUrl, menuItems }: NavbarProps) {
         <>
           <button
             aria-label="Close menu overlay"
-            onClick={handleClose}
-            className="fixed inset-0 z-[190] bg-black/30"
+            onClick={() => setOpen(false)}
+            className="fixed inset-0 z-[190] bg-black/25"
           />
           <nav
-            ref={menuRef}
             className="fixed left-0 top-0 z-[200] flex h-full w-[320px] max-w-[86vw] flex-col bg-white shadow-2xl"
           >
-            <div className="flex justify-end border-b border-black/10 p-5">
-              <button onClick={handleClose} aria-label="Close menu" className="p-2 text-[#1a1a1a]">
+            <div className="flex h-20 items-center justify-between border-b border-[#e8e4dc] px-[30px]">
+              <p className="text-xs font-bold uppercase tracking-[0.18em]" style={{ color: "#7f1717" }}>
+                Menu
+              </p>
+              <button onClick={() => setOpen(false)} aria-label="Close menu" className="p-2 text-[#1a1a1a] transition-opacity hover:opacity-60">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                   <path strokeLinecap="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
             </div>
 
-            <ul ref={linksRef} className="list-none py-5">
+            <ul className="list-none py-5">
               {visible.map((item) => (
                 <li key={item.id}>
                   <Link
-                    href={item.href}
-                    onClick={handleClose}
-                    className="flex items-center gap-4 px-[30px] py-[18px] text-base font-medium transition-colors hover:bg-[#f6f6f4]"
+                    href={normalizeHref(item.href)}
+                    onClick={() => setOpen(false)}
+                    className="flex items-center gap-4 px-[30px] py-[17px] text-[18px] font-semibold transition-colors hover:bg-[#f7f4ef]"
                     style={{ color: "#1a1a1a" }}
                   >
                     <span className="flex h-[22px] w-[22px] items-center justify-center">
@@ -115,18 +103,13 @@ export default function Navbar({ siteName, logoUrl, menuItems }: NavbarProps) {
                         <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </span>
-                    <span className="flex flex-col leading-tight">
-                      <span className="font-semibold">{item.label}</span>
-                      <span className="mt-1 text-[13px]" style={{ color: "#666" }}>
-                        {item.href === "/" ? "Home page" : `Go to ${item.label.toLowerCase()}`}
-                      </span>
-                    </span>
+                    <span>{item.label}</span>
                   </Link>
                 </li>
               ))}
             </ul>
 
-            <div className="mt-auto border-t border-black/10 bg-[#f6f6f4] px-[30px] py-6">
+            <div className="mt-auto border-t border-[#e8e4dc] bg-[#f7f4ef] px-[30px] py-6">
               <p className="mb-2 text-xs font-semibold uppercase tracking-widest" style={{ color: "#777" }}>
                 Cherry Street Commons
               </p>

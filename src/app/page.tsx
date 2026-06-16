@@ -1,37 +1,11 @@
-import { prisma } from "@/lib/prisma";
 import Navbar from "@/components/site/Navbar";
 import HeroSection from "@/components/site/HeroSection";
 import SectionsBlock from "@/components/site/SectionsBlock";
-import MapSection from "@/components/site/MapSection";
-import { connection } from "next/server";
-
-async function getSiteData() {
-  await connection();
-
-  const [contentItems, banners, sections, menuItems] = await Promise.all([
-    prisma.siteContent.findMany(),
-    prisma.banner.findMany({ where: { active: true }, orderBy: { order: "asc" } }),
-    prisma.section.findMany({ where: { visible: true }, orderBy: { order: "asc" } }),
-    prisma.menuItem.findMany({ orderBy: { order: "asc" } }),
-  ]);
-
-  const content: Record<string, string> = {};
-  contentItems.forEach((c) => (content[c.key] = c.value));
-
-  return { content, banners, sections, menuItems };
-}
+import { defaultHero, getPublicSiteData } from "@/lib/site-data";
 
 export default async function Home() {
-  const { content, banners, sections, menuItems } = await getSiteData();
-
-  const hero = banners[0] ?? {
-    id: "default",
-    title: content.site_name ?? "Cherry Street Commons",
-    subtitle: content.site_tagline ?? "Affordable Housing in Downtown San Carlos",
-    buttonText: "Learn More",
-    buttonHref: "#about",
-    imageUrl: "",
-  };
+  const { content, banners, menuItems } = await getPublicSiteData();
+  const hero = banners[0] ?? defaultHero(content);
 
   return (
     <>
@@ -42,8 +16,7 @@ export default async function Home() {
       />
       <main style={{ paddingTop: "80px" }}>
         <HeroSection banner={hero} />
-        <SectionsBlock sections={sections} />
-        <MapSection />
+        <SectionsBlock />
       </main>
     </>
   );

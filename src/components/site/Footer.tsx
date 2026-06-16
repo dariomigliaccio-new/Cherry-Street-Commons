@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { normalizeHref } from "@/lib/site-data";
 
 type FooterProps = {
   siteName: string;
@@ -13,18 +14,16 @@ export default function Footer({ siteName, footerText, email, phone, address, me
   const visible = menuItems.filter(m => m.visible);
 
   return (
-    <footer id="contact" style={{ background: "#0f1f3d" }}>
-      <div className="max-w-7xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-4 gap-10">
-        {/* Brand */}
+    <footer id="contact" style={{ background: "#1f1d1a" }}>
+      <div className="mx-auto grid max-w-[1120px] grid-cols-1 gap-10 px-5 py-14 md:grid-cols-4 md:px-10">
         <div className="md:col-span-2">
           <h3
-            className="font-display font-bold text-2xl mb-3"
-            style={{ color: "white", letterSpacing: "-0.02em" }}
+            className="mb-3 text-2xl font-extrabold"
+            style={{ color: "white" }}
           >
             {siteName}
           </h3>
-          <div className="gold-rule mb-5" />
-          <p className="text-sm leading-relaxed mb-6" style={{ color: "rgba(255,255,255,0.55)" }}>
+          <p className="mb-6 max-w-[30rem] text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.58)" }}>
             33 affordable homes in the heart of downtown San Carlos.<br />
             A partnership between Eden Housing &amp; HIP Housing.
           </p>
@@ -33,43 +32,40 @@ export default function Footer({ siteName, footerText, email, phone, address, me
           </p>
         </div>
 
-        {/* Contact */}
         <div>
-          <h4 className="text-xs font-bold tracking-widest uppercase mb-5" style={{ color: "#C9973A" }}>
+          <h4 className="mb-5 text-xs font-bold uppercase tracking-widest" style={{ color: "#d6c9b6" }}>
             Contact
           </h4>
           <ul className="space-y-3 text-sm" style={{ color: "rgba(255,255,255,0.65)" }}>
             <li>
-              <span style={{ color: "rgba(255,255,255,0.35)" }}>📍 </span>
               {address || "1244 Cherry Street, San Carlos, CA"}
             </li>
             {email && (
               <li>
-                <a href={`mailto:${email}`} className="hover:text-white transition-colors">
-                  <span style={{ color: "rgba(255,255,255,0.35)" }}>✉ </span>{email}
+                <a href={`mailto:${email}`} className="transition-colors hover:text-white">
+                  {email}
                 </a>
               </li>
             )}
             {phone && (
               <li>
-                <a href={`tel:${phone}`} className="hover:text-white transition-colors">
-                  <span style={{ color: "rgba(255,255,255,0.35)" }}>📞 </span>{phone}
+                <a href={`tel:${phone}`} className="transition-colors hover:text-white">
+                  {phone}
                 </a>
               </li>
             )}
           </ul>
         </div>
 
-        {/* Nav */}
         <div>
-          <h4 className="text-xs font-bold tracking-widest uppercase mb-5" style={{ color: "#C9973A" }}>
+          <h4 className="mb-5 text-xs font-bold uppercase tracking-widest" style={{ color: "#d6c9b6" }}>
             Navigation
           </h4>
           <ul className="space-y-2">
             {visible.map(item => (
               <li key={item.id}>
                 <Link
-                  href={item.href}
+                  href={normalizeHref(item.href)}
                   className="text-sm transition-colors hover:text-white"
                   style={{ color: "rgba(255,255,255,0.55)" }}
                 >
@@ -81,11 +77,10 @@ export default function Footer({ siteName, footerText, email, phone, address, me
         </div>
       </div>
 
-      {/* Bottom bar */}
       <div style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-        <div className="max-w-7xl mx-auto px-6 py-5 flex flex-col md:flex-row items-center justify-between gap-2">
+        <div className="mx-auto flex max-w-[1120px] flex-col items-center justify-between gap-2 px-5 py-5 md:flex-row md:px-10">
           <p className="text-xs" style={{ color: "rgba(255,255,255,0.28)" }}>{footerText}</p>
-          <Link href="/admin" className="text-xs hover:text-white transition-colors" style={{ color: "rgba(255,255,255,0.18)" }}>
+          <Link href="/admin" className="text-xs transition-colors hover:text-white" style={{ color: "rgba(255,255,255,0.18)" }}>
             Admin
           </Link>
         </div>
