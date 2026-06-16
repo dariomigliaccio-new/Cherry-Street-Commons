@@ -12,31 +12,23 @@ type Banner = {
 };
 
 export default function HeroSection({ banner }: { banner: Banner }) {
-  const wrapRef    = useRef<HTMLDivElement>(null);
-  const badgeRef   = useRef<HTMLDivElement>(null);
-  const titleRef   = useRef<HTMLHeadingElement>(null);
-  const lineRef    = useRef<HTMLDivElement>(null);
-  const subRef     = useRef<HTMLParagraphElement>(null);
-  const ctaRef     = useRef<HTMLDivElement>(null);
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const subRef = useRef<HTMLParagraphElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
-    tl.fromTo(badgeRef.current,
-      { y: -20, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.6 }, 0.4)
-      .fromTo(titleRef.current,
-        { y: 60, opacity: 0, clipPath: "inset(0 0 100% 0)" },
-        { y: 0, opacity: 1, clipPath: "inset(0 0 0% 0)", duration: 1.1 }, 0.7)
-      .fromTo(lineRef.current,
-        { scaleX: 0, opacity: 0 },
-        { scaleX: 1, opacity: 1, duration: 0.6 }, 1.5)
+    tl.fromTo(titleRef.current,
+      { y: 36, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.8 }, 0.25)
       .fromTo(subRef.current,
-        { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.8 }, 1.6)
+        { y: 18, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.55 }, 0.45)
       .fromTo(ctaRef.current,
-        { y: 20, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.6 }, 2.1);
+        { y: 16, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.45 }, 0.6);
   }, []);
 
   const hasCustomBg = banner.imageUrl &&
@@ -45,24 +37,25 @@ export default function HeroSection({ banner }: { banner: Banner }) {
   const backgroundImage = hasCustomBg ? banner.imageUrl : "/cherry-street-hero.png";
 
   return (
-    <section className="w-full flex justify-center" style={{ background: "#0f1f3d" }}>
+    <section className="w-full flex justify-center bg-white">
       <div
         ref={wrapRef}
         className="relative w-full overflow-hidden"
         style={{
-          maxWidth: "1668px",
-          minHeight: "min(760px, calc(100svh - 72px))",
+          maxWidth: "1667px",
+          aspectRatio: "1667 / 662",
         }}
       >
         <style>{`
           @media (max-width: 767px) {
-            .hero-shell { min-height: 720px !important; }
-            .hero-actions { flex-direction: column; width: 100%; max-width: 320px; }
-            .hero-actions a { width: 100%; justify-content: center; }
+            .hero-shell { aspect-ratio: 4 / 5 !important; }
+            .hero-content { left: 20px !important; right: 20px !important; bottom: 40px !important; max-width: none !important; text-align: center !important; align-items: center !important; }
+            .hero-cta { position: static !important; margin-top: 14px; justify-content: center; }
+            .hero-title { font-size: 2.7rem !important; }
           }
         `}</style>
 
-        <div className="hero-shell absolute inset-0 min-h-full">
+        <div className="hero-shell absolute inset-0">
           <div
             className="absolute inset-0 bg-cover bg-center"
             style={{ backgroundImage: `url(${backgroundImage})` }}
@@ -71,98 +64,52 @@ export default function HeroSection({ banner }: { banner: Banner }) {
           <div
             className="absolute inset-0"
             style={{
-              background:
-                "linear-gradient(90deg, rgba(15,31,61,0.82) 0%, rgba(15,31,61,0.52) 46%, rgba(15,31,61,0.18) 100%), linear-gradient(to bottom, rgba(0,0,0,0.18), rgba(0,0,0,0.42))",
+              background: "linear-gradient(to bottom, rgba(0,0,0,0.08), rgba(0,0,0,0.48))",
             }}
           />
 
-          <div className="relative z-10 h-full min-h-[inherit] flex flex-col items-start justify-center text-left text-white px-6 md:px-10 max-w-screen-xl mx-auto">
-            <div
-              ref={badgeRef}
-              className="mb-6 px-4 py-2 text-xs font-semibold tracking-widest uppercase"
-              style={{
-                background: "rgba(201,151,58,0.22)",
-                border: "1px solid rgba(201,151,58,0.5)",
-                backdropFilter: "blur(8px)",
-                color: "#F0C870",
-                letterSpacing: "0.2em",
-                borderRadius: "999px",
-              }}
-            >
-              San Carlos, California · 2026
-            </div>
-
+          <div className="hero-content absolute bottom-[52px] left-12 z-10 flex max-w-[560px] flex-col gap-1 text-left text-white">
             <h1
               ref={titleRef}
-              className="font-display font-bold leading-tight mb-5 max-w-4xl"
+              className="hero-title font-display mb-2 font-extrabold leading-none"
               style={{
-                fontSize: "clamp(2.2rem, 5.5vw, 5.5rem)",
-                textShadow: "0 4px 30px rgba(0,0,0,0.4)",
+                fontSize: "clamp(3rem, 5.25vw, 5.5rem)",
+                textShadow: "0 2px 12px rgba(0,0,0,0.4)",
               }}
             >
               {banner.title}
             </h1>
 
-            <div
-              ref={lineRef}
-              className="gold-rule mb-6"
-              style={{ transformOrigin: "left center" }}
-            />
-
             {banner.subtitle && (
               <p
                 ref={subRef}
-                className="text-lg md:text-xl max-w-2xl mb-10 font-light leading-relaxed"
+                className="text-[0.95rem] font-semibold leading-snug md:text-base"
                 style={{
-                  color: "rgba(255,255,255,0.88)",
-                  textShadow: "0 2px 10px rgba(0,0,0,0.3)",
+                  color: "rgba(255,255,255,0.94)",
+                  textShadow: "0 2px 10px rgba(0,0,0,0.45)",
                 }}
               >
                 {banner.subtitle}
               </p>
             )}
-
-            {banner.buttonText && banner.buttonHref && (
-              <div ref={ctaRef} className="hero-actions flex items-center gap-4">
-                <a
-                  href={banner.buttonHref}
-                  className="btn-glow inline-flex items-center gap-2 px-8 py-4 font-semibold text-white text-base"
-                  style={{
-                    background: "linear-gradient(135deg, #8B1A1A, #B02020)",
-                    boxShadow: "0 8px 32px rgba(139,26,26,0.5)",
-                    animation: "pulse-glow 3s ease-in-out infinite",
-                    borderRadius: "8px",
-                  }}
-                >
-                  {banner.buttonText}
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
-                </a>
-                <a
-                  href="#contact"
-                  className="inline-flex items-center gap-2 px-8 py-4 font-semibold text-white text-base transition-all hover:bg-white/20"
-                  style={{
-                    background: "rgba(255,255,255,0.1)",
-                    backdropFilter: "blur(10px)",
-                    border: "1px solid rgba(255,255,255,0.25)",
-                    borderRadius: "8px",
-                  }}
-                >
-                  Apply Now
-                </a>
-              </div>
-            )}
           </div>
 
-          <div
-            className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1 opacity-60"
-            style={{ animation: "float-up 2.5s ease-in-out infinite" }}
-          >
-            <span className="text-white text-xs tracking-widest uppercase">Scroll</span>
-            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
+          {banner.buttonText && banner.buttonHref && (
+            <div ref={ctaRef} className="hero-cta absolute bottom-10 right-[120px] z-10 flex">
+              <a
+                href={banner.buttonHref}
+                className="inline-flex items-center justify-center px-7 py-[13px] text-[15px] font-bold text-[#1a1a1a] transition-transform hover:-translate-y-0.5"
+                style={{ background: "white", borderRadius: "14px" }}
+              >
+                {banner.buttonText}
+              </a>
+            </div>
+          )}
+
+          <div className="absolute bottom-5 left-1/2 z-10 flex -translate-x-1/2 gap-2">
+            <span className="h-2 w-2 rounded-full bg-white" />
+            <span className="h-2 w-2 rounded-full bg-white/45" />
+            <span className="h-2 w-2 rounded-full bg-white/45" />
           </div>
         </div>
       </div>

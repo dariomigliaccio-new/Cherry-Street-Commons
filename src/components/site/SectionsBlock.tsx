@@ -4,19 +4,51 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 
 type Section = {
-  id: string; slug: string; title: string; content: string;
-  imageUrl: string; order: number; visible: boolean;
+  id: string;
+  slug: string;
+  title: string;
+  content: string;
+  imageUrl: string;
+  order: number;
+  visible: boolean;
 };
 
+const NEXT_STEPS = [
+  {
+    title: "About the Project",
+    text: "Learn what is planned for Cherry Street Commons and the families it will serve.",
+    href: "#about",
+    link: "Learn more",
+    icon: "M4 19.5A2.5 2.5 0 016.5 17H20M4 4.5A2.5 2.5 0 016.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15zM12 6v6M9 9h6",
+  },
+  {
+    title: "Homes",
+    text: "Explore the planned one, two, and three-bedroom affordable apartment options.",
+    href: "#floorplans",
+    link: "See plans",
+    icon: "M3 10.5L12 3l9 7.5V21h-6v-6H9v6H3V10.5z",
+  },
+  {
+    title: "Location",
+    text: "Find the downtown San Carlos address near Caltrain, services, and daily needs.",
+    href: "#location",
+    link: "View map",
+    icon: "M12 21s7-5.2 7-11a7 7 0 10-14 0c0 5.8 7 11 7 11zM12 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z",
+  },
+  {
+    title: "Apply",
+    text: "Application details and resident information will be shared as opening approaches.",
+    href: "#floorplans",
+    link: "Get ready",
+    icon: "M4 12h14M12 5l7 7-7 7",
+  },
+];
+
 const AMENITIES = [
-  { icon: "🏠", label: "33 Affordable Homes", sub: "1, 2 & 3 bedrooms" },
-  { icon: "⚡", label: "All-Electric", sub: "Heat pump + solar array" },
-  { icon: "🚗", label: "EV-Ready Parking", sub: "23 spaces" },
-  { icon: "🚲", label: "Micro-Mobility", sub: "20 bike + 8 scooter spaces" },
-  { icon: "🌿", label: "Courtyard & Tot Lot", sub: "Outdoor gathering space" },
-  { icon: "🍳", label: "Community Kitchen", sub: "Shared media & meeting rooms" },
-  { icon: "👔", label: "Laundry On-Site", sub: "Resident convenience" },
-  { icon: "🌳", label: "Street Improvements", sub: "New trees & pedestrian plaza" },
+  { label: "33 Affordable Homes", sub: "1, 2 & 3 bedrooms" },
+  { label: "All-Electric", sub: "Heat pump + solar array" },
+  { label: "EV-Ready Parking", sub: "23 spaces" },
+  { label: "Micro-Mobility", sub: "Bike + scooter spaces" },
 ];
 
 const PARTNERS = [
@@ -32,195 +64,184 @@ const FLOOR_PLANS = [
   { name: "3 Bedroom", units: "Larger homes", detail: "Room for families who need more space" },
 ];
 
+function ArrowIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 export default function SectionsBlock({ sections }: { sections: Section[] }) {
   useEffect(() => {
-    AOS.init({ duration: 800, once: true, easing: "ease-out-quart", offset: 60 });
+    AOS.init({ duration: 700, once: true, easing: "ease-out-quart", offset: 50 });
   }, []);
 
-  const visible = sections.filter(s => s.visible).sort((a, b) => a.order - b.order);
-  const about        = visible.find(s => s.slug === "about");
-  const sustainability = visible.find(s => s.slug === "sustainability");
-  const community    = visible.find(s => s.slug === "community");
+  const visible = sections.filter((s) => s.visible).sort((a, b) => a.order - b.order);
+  const about = visible.find((s) => s.slug === "about");
+  const sustainability = visible.find((s) => s.slug === "sustainability");
+  const community = visible.find((s) => s.slug === "community");
 
   return (
     <>
-      {/* ── About ── */}
-      {about && (
-        <section id="about" className="py-24 md:py-36" style={{ background: "#FAF7F2" }}>
-          <div className="max-w-screen-xl mx-auto px-6 md:px-10">
+      <section className="py-[60px] md:py-[64px]" style={{ background: "white" }}>
+        <div className="mx-auto max-w-[1200px] px-5 md:px-10">
+          <div className="mx-auto mb-10 max-w-[760px] text-center" data-aos="fade-up">
+            <h2
+              className="font-display mb-5 font-extrabold leading-[1.1]"
+              style={{ color: "#1a1a1a", fontSize: "clamp(2rem, 4vw, 3.2rem)" }}
+            >
+              Welcome to Cherry Street Commons.
+            </h2>
+            <p className="text-base leading-relaxed md:text-[1.15rem]" style={{ color: "#666" }}>
+              Affordable homes are coming to downtown San Carlos with shared spaces, sustainable systems, and a location close to everyday essentials.
+            </p>
+          </div>
 
-            {/* Centered header */}
-            <div className="text-center mb-14" data-aos="fade-up">
-              <p className="text-xs font-semibold tracking-[0.25em] uppercase mb-4" style={{ color: "#C9973A" }}>
-                About the Project
-              </p>
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {NEXT_STEPS.map((card, i) => (
+              <a
+                key={card.title}
+                href={card.href}
+                data-aos="fade-up"
+                data-aos-delay={i * 60}
+                className="flex min-h-[180px] flex-col items-start gap-3 border border-black/10 bg-white p-[25px] text-left no-underline transition hover:-translate-y-1 hover:shadow-xl"
+                style={{ borderRadius: "12px", color: "#1a1a1a" }}
+              >
+                <span className="flex h-10 w-10 items-center justify-center">
+                  <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <path d={card.icon} strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </span>
+                <span className="flex flex-1 flex-col gap-2">
+                  <span className="text-[1.05rem] font-bold">{card.title}</span>
+                  <span className="text-sm leading-relaxed" style={{ color: "#666" }}>{card.text}</span>
+                </span>
+                <span className="mt-auto inline-flex items-center gap-1.5 text-sm font-semibold">
+                  {card.link}
+                  <ArrowIcon />
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {about && (
+        <section id="about" className="py-[60px] md:py-[72px]" style={{ background: "#FAF7F2" }}>
+          <div className="mx-auto max-w-[1200px] px-5 md:px-10">
+            <div className="mx-auto mb-10 max-w-[760px] text-center" data-aos="fade-up">
               <h2
-                className="font-display mb-5"
-                style={{ fontSize: "clamp(2rem, 4vw, 3rem)", color: "#1E3A5F", letterSpacing: "-0.02em" }}
+                className="font-display mb-4 font-extrabold leading-[1.1]"
+                style={{ color: "#1a1a1a", fontSize: "clamp(2rem, 4vw, 3.2rem)" }}
               >
                 {about.title}
               </h2>
-              <div className="gold-rule mx-auto" />
+              <p className="text-base leading-relaxed md:text-[1.15rem]" style={{ color: "#666" }}>
+                A compact downtown development focused on affordability, access, and long-term neighborhood value.
+              </p>
             </div>
 
-            {/* Two-col: text + stats */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-[1.1fr_0.9fr]">
               <div data-aos="fade-right" className="space-y-5">
                 {about.content.split("\n\n").map((para, i) => (
-                  <p key={i} className="leading-relaxed text-[1.05rem]" style={{ color: "#4A4A4A", fontWeight: 300 }}>
+                  <p key={i} className="text-[1.02rem] leading-relaxed" style={{ color: "#4A4A4A" }}>
                     {para}
                   </p>
                 ))}
               </div>
 
-              <div data-aos="fade-left" data-aos-delay="120">
-                <div className="rounded-2xl p-8 md:p-10" style={{ background: "linear-gradient(135deg, #1E3A5F, #0f1f3d)" }}>
-                  <p className="text-[10px] font-semibold tracking-[0.25em] uppercase mb-7" style={{ color: "#C9973A" }}>
-                    At a Glance
-                  </p>
-                  {[
-                    ["33", "Affordable Homes"],
-                    ["3", "Bedroom Types (1BR · 2BR · 3BR)"],
-                    ["2026", "Expected Opening Year"],
-                    ["100%", "Affordable Units"],
-                  ].map(([num, label]) => (
-                    <div key={label} className="flex items-center gap-5 py-4" style={{ borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
-                      <span className="font-display font-bold text-4xl" style={{ color: "#C9973A", minWidth: "80px" }}>
-                        {num}
-                      </span>
-                      <span className="text-sm leading-snug font-light" style={{ color: "rgba(255,255,255,0.65)" }}>
-                        {label}
-                      </span>
-                    </div>
-                  ))}
-                </div>
+              <div data-aos="fade-left" className="grid grid-cols-2 gap-4">
+                {[
+                  ["33", "Affordable Homes"],
+                  ["2026", "Expected Opening"],
+                  ["100%", "Affordable Units"],
+                  ["3", "Bedroom Types"],
+                ].map(([num, label]) => (
+                  <div key={label} className="bg-white p-6" style={{ borderRadius: "12px", border: "1px solid rgba(0,0,0,0.08)" }}>
+                    <p className="font-display text-4xl font-extrabold" style={{ color: "#8B1A1A" }}>{num}</p>
+                    <p className="mt-2 text-sm font-semibold leading-snug" style={{ color: "#1a1a1a" }}>{label}</p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
         </section>
       )}
 
-      {/* ── Amenities ── */}
-      <section className="py-24 md:py-32" style={{ background: "white" }}>
-        <div className="max-w-screen-xl mx-auto px-6 md:px-10">
-          <div className="text-center mb-14" data-aos="fade-up">
-            <p className="text-xs font-semibold tracking-[0.25em] uppercase mb-4" style={{ color: "#C9973A" }}>
-              Features & Amenities
-            </p>
-            <h2
-              className="font-display"
-              style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)", color: "#1E3A5F", letterSpacing: "-0.02em" }}
-            >
-              Everything You Need
+      <section className="py-[60px] md:py-[72px]" style={{ background: "white" }}>
+        <div className="mx-auto max-w-[1200px] px-5 md:px-10">
+          <div className="mx-auto mb-10 max-w-[760px] text-center" data-aos="fade-up">
+            <h2 className="font-display font-extrabold leading-[1.1]" style={{ color: "#1a1a1a", fontSize: "clamp(2rem, 4vw, 3.2rem)" }}>
+              Everything You Need.
             </h2>
+            <p className="mt-4 text-base leading-relaxed md:text-[1.15rem]" style={{ color: "#666" }}>
+              Practical building features planned for modern affordable living.
+            </p>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {AMENITIES.map((item, i) => (
               <div
                 key={item.label}
                 data-aos="fade-up"
-                data-aos-delay={i * 55}
-                className="rounded-2xl p-6 text-center"
-                style={{ background: "#FAF7F2", border: "1px solid rgba(0,0,0,0.05)" }}
+                data-aos-delay={i * 60}
+                className="border border-black/10 bg-white p-[25px]"
+                style={{ borderRadius: "12px" }}
               >
-                <span className="text-3xl mb-3 block">{item.icon}</span>
-                <p className="font-semibold text-sm mb-1" style={{ color: "#1E3A5F" }}>{item.label}</p>
-                <p className="text-xs font-light" style={{ color: "#999" }}>{item.sub}</p>
+                <p className="text-[1.05rem] font-bold" style={{ color: "#1a1a1a" }}>{item.label}</p>
+                <p className="mt-2 text-sm leading-relaxed" style={{ color: "#666" }}>{item.sub}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section id="floorplans" className="py-24 md:py-32" style={{ background: "#0f1f3d" }}>
-        <div className="max-w-screen-xl mx-auto px-6 md:px-10">
-          <div className="grid grid-cols-1 lg:grid-cols-[0.85fr_1.15fr] gap-12 items-start">
-            <div data-aos="fade-up">
-              <p className="text-xs font-semibold tracking-[0.25em] uppercase mb-4" style={{ color: "#C9973A" }}>
-                Floor Plans
-              </p>
-              <h2
-                className="font-display mb-5"
-                style={{ fontSize: "clamp(1.9rem, 3.5vw, 2.8rem)", color: "white" }}
-              >
-                Homes planned for different household sizes
-              </h2>
-              <div className="gold-rule mb-6" />
-              <p className="text-base leading-relaxed max-w-xl" style={{ color: "rgba(255,255,255,0.68)" }}>
-                Cherry Street Commons will include one, two, and three-bedroom affordable apartments arranged around shared community spaces.
-              </p>
-            </div>
+      <section id="floorplans" className="py-[60px] md:py-[72px]" style={{ background: "#0f1f3d" }}>
+        <div className="mx-auto max-w-[1200px] px-5 md:px-10">
+          <div className="mx-auto mb-10 max-w-[760px] text-center" data-aos="fade-up">
+            <h2 className="font-display font-extrabold leading-[1.1]" style={{ color: "white", fontSize: "clamp(2rem, 4vw, 3.2rem)" }}>
+              Homes planned for different household sizes.
+            </h2>
+            <p className="mt-4 text-base leading-relaxed md:text-[1.15rem]" style={{ color: "rgba(255,255,255,0.68)" }}>
+              Cherry Street Commons will include one, two, and three-bedroom affordable apartments.
+            </p>
+          </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {FLOOR_PLANS.map((plan, i) => (
-                <div
-                  key={plan.name}
-                  data-aos="fade-up"
-                  data-aos-delay={i * 80}
-                  className="p-6 min-h-52 flex flex-col justify-between"
-                  style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: "8px" }}
-                >
-                  <div>
-                    <p className="text-sm font-semibold mb-3" style={{ color: "#C9973A" }}>{plan.units}</p>
-                    <h3 className="font-display text-2xl mb-3" style={{ color: "white" }}>{plan.name}</h3>
-                    <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.62)" }}>{plan.detail}</p>
-                  </div>
-                  <p className="text-xs uppercase tracking-widest mt-8" style={{ color: "rgba(255,255,255,0.36)" }}>
-                    Details coming soon
-                  </p>
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+            {FLOOR_PLANS.map((plan, i) => (
+              <div
+                key={plan.name}
+                data-aos="fade-up"
+                data-aos-delay={i * 70}
+                className="flex min-h-[190px] flex-col justify-between p-[25px]"
+                style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: "12px" }}
+              >
+                <div>
+                  <p className="text-sm font-semibold" style={{ color: "#C9973A" }}>{plan.units}</p>
+                  <h3 className="font-display mt-3 text-2xl font-extrabold" style={{ color: "white" }}>{plan.name}</h3>
+                  <p className="mt-3 text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.65)" }}>{plan.detail}</p>
                 </div>
-              ))}
-            </div>
+                <p className="mt-8 text-xs font-semibold uppercase tracking-widest" style={{ color: "rgba(255,255,255,0.36)" }}>
+                  Details coming soon
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ── Sustainability ── */}
       {sustainability && (
-        <section id="sustainability" className="py-24 md:py-36" style={{ background: "#FAF7F2" }}>
-          <div className="max-w-screen-xl mx-auto px-6 md:px-10">
-            <div className="text-center mb-14" data-aos="fade-up">
-              <p className="text-xs font-semibold tracking-[0.25em] uppercase mb-4" style={{ color: "#C9973A" }}>
-                Green Living
-              </p>
-              <h2
-                className="font-display mb-5"
-                style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)", color: "#1E3A5F", letterSpacing: "-0.02em" }}
-              >
+        <section id="sustainability" className="py-[60px] md:py-[72px]" style={{ background: "#FAF7F2" }}>
+          <div className="mx-auto max-w-[1200px] px-5 md:px-10">
+            <div className="mx-auto mb-10 max-w-[760px] text-center" data-aos="fade-up">
+              <h2 className="font-display font-extrabold leading-[1.1]" style={{ color: "#1a1a1a", fontSize: "clamp(2rem, 4vw, 3.2rem)" }}>
                 {sustainability.title}
               </h2>
-              <div className="gold-rule mx-auto" />
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
               {sustainability.content.split("\n\n").map((para, i) => (
-                <div
-                  key={i}
-                  data-aos="fade-up"
-                  data-aos-delay={i * 90}
-                  className="rounded-2xl p-7"
-                  style={{ background: "white", boxShadow: "0 4px 24px rgba(0,0,0,0.04)", border: "1px solid rgba(0,0,0,0.04)" }}
-                >
-                  <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center mb-5"
-                    style={{ background: "linear-gradient(135deg, #1E3A5F, #2d5a9e)" }}
-                  >
-                    {i === 0 && (
-                      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                      </svg>
-                    )}
-                    {i === 1 && (
-                      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                      </svg>
-                    )}
-                    {i >= 2 && (
-                      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-                      </svg>
-                    )}
-                  </div>
-                  <p className="text-sm leading-relaxed font-light" style={{ color: "#4A4A4A" }}>{para}</p>
+                <div key={i} data-aos="fade-up" data-aos-delay={i * 70} className="bg-white p-[25px]" style={{ borderRadius: "12px", border: "1px solid rgba(0,0,0,0.08)" }}>
+                  <p className="text-sm leading-relaxed" style={{ color: "#4A4A4A" }}>{para}</p>
                 </div>
               ))}
             </div>
@@ -228,48 +249,37 @@ export default function SectionsBlock({ sections }: { sections: Section[] }) {
         </section>
       )}
 
-      {/* ── Community ── */}
       {community && (
-        <section id="community" className="py-24 md:py-36" style={{ background: "white" }}>
-          <div className="max-w-screen-xl mx-auto px-6 md:px-10">
-            <div className="text-center mb-14" data-aos="fade-up">
-              <p className="text-xs font-semibold tracking-[0.25em] uppercase mb-4" style={{ color: "#C9973A" }}>
-                Community
-              </p>
-              <h2
-                className="font-display mb-5"
-                style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)", color: "#1E3A5F", letterSpacing: "-0.02em" }}
-              >
+        <section id="community" className="py-[60px] md:py-[72px]" style={{ background: "white" }}>
+          <div className="mx-auto max-w-[1200px] px-5 md:px-10">
+            <div className="mx-auto mb-10 max-w-[760px] text-center" data-aos="fade-up">
+              <h2 className="font-display font-extrabold leading-[1.1]" style={{ color: "#1a1a1a", fontSize: "clamp(2rem, 4vw, 3.2rem)" }}>
                 {community.title}
               </h2>
-              <div className="gold-rule mx-auto" />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-[1fr_0.9fr]">
               <div data-aos="fade-right" className="space-y-5">
                 {community.content.split("\n\n").slice(0, 2).map((para, i) => (
-                  <p key={i} className="leading-relaxed text-[1.05rem] font-light" style={{ color: "#4A4A4A" }}>
+                  <p key={i} className="text-[1.02rem] leading-relaxed" style={{ color: "#4A4A4A" }}>
                     {para}
                   </p>
                 ))}
               </div>
 
-              <div data-aos="fade-left" data-aos-delay="120">
-                <div className="rounded-2xl p-8" style={{ background: "#FAF7F2", border: "1px solid rgba(0,0,0,0.05)" }}>
-                  <p className="text-[10px] font-semibold tracking-[0.25em] uppercase mb-6" style={{ color: "#C9973A" }}>
-                    Development Partners
-                  </p>
-                  <div className="space-y-5">
-                    {PARTNERS.map(({ role, names }) => (
-                      <div key={role} className="pb-5" style={{ borderBottom: "1px solid rgba(0,0,0,0.06)" }}>
-                        <p className="text-[10px] uppercase tracking-widest mb-1 font-medium" style={{ color: "#aaa" }}>{role}</p>
-                        {names.map(name => (
-                          <p key={name} className="font-semibold text-base" style={{ color: "#1E3A5F" }}>{name}</p>
-                        ))}
-                      </div>
-                    ))}
-                  </div>
-                  <p className="text-xs font-light mt-4" style={{ color: "#bbb" }}>San Carlos, California · Opening 2026</p>
+              <div data-aos="fade-left" className="p-[25px]" style={{ background: "#FAF7F2", border: "1px solid rgba(0,0,0,0.08)", borderRadius: "12px" }}>
+                <p className="mb-5 text-xs font-bold uppercase tracking-widest" style={{ color: "#8B1A1A" }}>
+                  Development Partners
+                </p>
+                <div className="space-y-4">
+                  {PARTNERS.map(({ role, names }) => (
+                    <div key={role} className="border-b border-black/10 pb-4">
+                      <p className="mb-1 text-[10px] font-semibold uppercase tracking-widest" style={{ color: "#777" }}>{role}</p>
+                      {names.map((name) => (
+                        <p key={name} className="font-bold" style={{ color: "#1a1a1a" }}>{name}</p>
+                      ))}
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>

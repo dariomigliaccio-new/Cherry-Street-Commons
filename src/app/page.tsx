@@ -3,7 +3,6 @@ import Navbar from "@/components/site/Navbar";
 import HeroSection from "@/components/site/HeroSection";
 import SectionsBlock from "@/components/site/SectionsBlock";
 import MapSection from "@/components/site/MapSection";
-import Footer from "@/components/site/Footer";
 import { connection } from "next/server";
 
 async function getSiteData() {
@@ -41,17 +40,11 @@ export default async function Home() {
         logoUrl={content.site_logo ?? ""}
         menuItems={menuItems}
       />
-      <HeroSection banner={hero} />
-      <SectionsBlock sections={sections} />
-      <MapSection />
-      <Footer
-        siteName={content.site_name ?? "Cherry Street Commons"}
-        footerText={content.footer_text ?? "Cherry Street Commons · Eden Housing & HIP Housing · San Carlos, CA"}
-        email={content.contact_email ?? ""}
-        phone={content.contact_phone ?? ""}
-        address={content.contact_address ?? "1244 Cherry Street, San Carlos, CA"}
-        menuItems={menuItems}
-      />
+      <main style={{ paddingTop: "80px" }}>
+        <HeroSection banner={hero} />
+        <SectionsBlock sections={sections} />
+        <MapSection />
+      </main>
     </>
   );
 }
